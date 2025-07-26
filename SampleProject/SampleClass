@@ -1,0 +1,40 @@
+function validateForm(formData) {
+    const errors = {};
+
+    // Check if name is provided
+    if (!formData.name || formData.name.trim() === "") {
+        errors.name = "Name is required.";
+    }
+
+    // Check if email is valid
+    if (!formData.email || !/^\S+@\S+\.\S+$/.test(formData.email)) {
+        errors.email = "Valid email is required.";
+    }
+
+    // Check if password meets criteria
+    if (!formData.password || formData.password.length < 6) {
+        errors.password = "Password must be at least 6 characters.";
+    }
+
+    // Example: Check if age is a number and above 18
+    if (!formData.age || isNaN(formData.age) || formData.age < 18) {
+        errors.age = "You must be at least 18 years old.";
+    }
+
+    return errors;
+}
+
+// Usage example:
+const formData = {
+    name: "John",
+    email: "john@example.com",
+    password: "secret123",
+    age: 25
+};
+
+const validationErrors = validateForm(formData);
+if (Object.keys(validationErrors).length === 0) {
+    console.log("Form is valid!");
+} else {
+    console.log("Validation errors:", validationErrors);
+}

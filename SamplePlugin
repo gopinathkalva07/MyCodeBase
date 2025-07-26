@@ -1,0 +1,28 @@
+using System;
+using Microsoft.Xrm.Sdk;
+
+public class SampleContactPlugin : IPlugin
+{
+    public void Execute(IServiceProvider serviceProvider)
+    {
+        // Obtain the execution context from the service provider.
+        IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
+
+        // Obtain the organization service reference.
+        IOrganizationServiceFactory serviceFactory = (IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory));
+        IOrganizationService service = serviceFactory.CreateOrganizationService(context.UserId);
+
+        // The InputParameters collection contains all the data passed in the message request.
+        if (context.InputParameters.Contains("Target") && context.InputParameters["Target"] is Entity)
+        {
+            Entity entity = (Entity)context.InputParameters["Target"];
+
+            // Check that the target entity represents a Contact.
+            if (entity.LogicalName == "contact")
+            {
+                // Set the description field.
+                entity["description"] = "Created by SampleContactPlugin";
+            }
+        }
+    }
+}

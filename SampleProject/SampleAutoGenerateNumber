@@ -1,0 +1,37 @@
+using System;
+
+namespace SampleAutoGenerateNumber
+{
+    public class AutoNumberGenerator
+    {
+        private int _currentNumber;
+        private readonly int _start;
+        private readonly int _step;
+
+        public AutoNumberGenerator(int start = 1, int step = 1)
+        {
+            _start = start;
+            _step = step;
+            _currentNumber = _start - _step;
+        }
+
+        public int NextNumber()
+        {
+            _currentNumber += _step;
+            return _currentNumber;
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var generator = new AutoNumberGenerator();
+
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine($"Generated Number: {generator.NextNumber()}");
+            }
+        }
+    }
+}
